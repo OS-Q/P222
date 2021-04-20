@@ -64,9 +64,9 @@ jobs:
       matrix:
         examples:
           - "pico-hello"
-          - "pico-apple-2"
+          # - "pico-apple-2"
           - "pico-pioasm-ws2812"
-          - "pico-i2c-oled"
+          # - "pico-i2c-oled"
           # - "pico-posix"
           - "pico-tft-st7789"
           - "UNISTD"
@@ -102,7 +102,7 @@ jobs:
         run: |
           mkdir examples/${{ matrix.examples }}/build
           pio run -d examples/${{ matrix.examples }}  >> examples/${{ matrix.examples }}/build/log.txt
-          cp -f examples/${{ matrix.examples }}/.*io/build/*/*.bin  examples/${{ matrix.examples }}/build/
+          # cp -f examples/${{ matrix.examples }}/.*io/build/*/*.bin  examples/${{ matrix.examples }}/build/
           echo "::set-output name=status::success"
 
       # - name: Upload

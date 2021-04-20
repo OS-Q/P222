@@ -1,13 +1,13 @@
 name: nightly
 
-on:
-  schedule:
-    - cron: "0 7 * * *"
 # on:
-#   push:
-#     branches:
-#       - master
-#       - main
+#   schedule:
+#     - cron: "0 7 * * *"
+on:
+  push:
+    branches:
+      - master
+      - main
 
 env:
   UPLOAD_BUILD: false
