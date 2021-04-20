@@ -62,7 +62,7 @@ jobs:
           - "pico-apple-2"
           - "pico-pioasm-ws2812"
           - "pico-i2c-oled"
-          - "pico-posix"
+          # - "pico-posix"
           - "pico-tft-st7789"
           - "UNISTD"
           - "HELLO"
@@ -86,33 +86,34 @@ jobs:
         with:
           python-version: 3.9
 
-      - name: Install
-        if: matrix.package == 'QIO'
+      - name: Install PIO
+        if: matrix.package == 'PIO'
         run: |
           python -m pip install --upgrade pip
           pip install -U https://github.com/platformio/platformio/archive/develop.zip
           pio platform install file://.
           pio update
 
-      - name: Install
-        if: matrix.package == 'PIO'
+      - name: Install QIO
+        if: matrix.package == 'QIO'
         run: |
           python -m pip install --upgrade pip
           pip install -U https://github.com/OS-Q/S03/releases/latest/download/S03.zip
           qio platform install file://.
-          # qio update
+          qio update
 
       - name: Build
         id: build
         if: success()
         run: |
           mkdir examples/${{ matrix.examples }}/build
-          pio run -d examples/${{ matrix.examples }}  # >> examples/${{ matrix.examples }}/build/log.txt
+          pio run -d examples/${{ matrix.examples }}  >> examples/${{ matrix.examples }}/build/log.txt
+          cp -f examples/${{ matrix.examples }}/.pio/build/*/*.bin  examples/${{ matrix.examples }}/build/
           echo "::set-output name=status::success"
 
       - name: Upload
         if: steps.build.outputs.status == 'success' && env.UPLOAD_BUILD
         uses: actions/upload-artifact@v2
         with:
-          name: build_upload_${{ matrix.examples }}_${{ matrix.package }}
-          path: examples/${{ matrix.examples }}
+          name: ${{ matrix.package }}_${{ matrix.examples }}
+          path: examples/${{ matrix.examples }}/build
