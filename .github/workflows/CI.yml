@@ -100,12 +100,12 @@ jobs:
           cp -f examples/${{ matrix.examples }}/.*io/build/*/*.bin  examples/${{ matrix.examples }}/build/
           echo "::set-output name=status::success"
 
-      - name: Upload
-        if: steps.build.outputs.status == 'success' && env.UPLOAD_BUILD
-        uses: actions/upload-artifact@v2
-        with:
-          name: QIO_${{ matrix.examples }}
-          path: examples/${{ matrix.examples }}/build
+      # - name: Upload
+      #   if: steps.build.outputs.status == 'success' && env.UPLOAD_BUILD
+      #   uses: actions/upload-artifact@v2
+      #   with:
+      #     name: QIO_${{ matrix.examples }}
+      #     path: examples/${{ matrix.examples }}/build
 
   PIO:
     if: github.repository == 'OS-Q/P25'
