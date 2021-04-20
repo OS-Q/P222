@@ -14,9 +14,9 @@ jobs:
       fail-fast: true
       matrix:
         examples:
-          - "Arduino/bg96/bg96_i2c_Si7021"
-          - "Arduino/bg96/bg96_dss_dns"
-          - "Arduino/bg96/bg96_client_http"
+          - "arduino/pico-hello"
+          - "baremetal/pico-ardiuno"
+          - "HelloWorld/HELLO"
 
     steps:
     - uses: actions/checkout@v2
@@ -61,12 +61,12 @@ jobs:
       - name: Package Src
         id: package
         run: |
-          echo "Platform P67 for Quectel Module" >> README.txt
+          echo "Platform P25 for Quectel Module" >> README.txt
           echo $(date +"%Y.%m.%d") >> README.txt
           echo ${GITHUB_REF/refs\/tags\//} >> README.txt
           echo -e "www.OS-Q.com\n" >> README.txt
           git log --stat -1 >> README.txt
-          zip -r P67.zip boards extend link.json link.py
+          zip -r P25.zip boards extend link.json link.py
           echo "FIRMWARE=$PWD" >> $GITHUB_ENV
           echo "::set-output name=status::success"
 
@@ -74,8 +74,8 @@ jobs:
         if: steps.package.outputs.status == 'success' && !cancelled()
         uses: actions/upload-artifact@v2
         with:
-          name: P67
-          path: ${{ env.FIRMWARE }}/P67.zip
+          name: P25
+          path: ${{ env.FIRMWARE }}/P25.zip
 
       - name: Upload Release
         id: upload-release
@@ -86,7 +86,7 @@ jobs:
         with:
           tag_name: ${{ steps.tag.outputs.release_tag }}
           files: |
-            ${{ env.FIRMWARE }}/P67.zip
+            ${{ env.FIRMWARE }}/P25.zip
             ${{ env.FIRMWARE }}/README.txt
 
       - name: Setup OSS
@@ -99,7 +99,7 @@ jobs:
       - name: Upload To OSS
         id: OSS
         run: |
-          ossutil cp ${{ env.FIRMWARE }}/P67.zip ${{ secrets.OSS_BUCKET }} -rf
+          ossutil cp ${{ env.FIRMWARE }}/P25.zip ${{ secrets.OSS_BUCKET }} -rf
           echo "::set-output name=status::success"
 
       - name: Delet tag
@@ -130,7 +130,7 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install -U https://github.com/OS-Q/S03/releases/latest/download/S03.zip
-          qio platform install https://github.com/OS-Q/P25/releases/latest/download/P67.zip
+          qio platform install https://github.com/OS-Q/P25/releases/latest/download/P25.zip
           echo "::set-output name=status::success"
 
       - name: ReBuild
@@ -147,13 +147,13 @@ jobs:
           server_port: 465
           username: ${{secrets.MAIL_USERNAME}}
           password: ${{secrets.MAIL_PASSWORD}}
-          subject: OS-Q P67 Released
+          subject: OS-Q P25 Released
           to: ${{secrets.MAIL_TO}}
           from: Qitas
           cc: ${{github.event.pusher.email}}
           content_type: text/html
           convert_markdown: true
-          attachments: P67.zip
+          attachments: P25.zip
           body: file://README.md
 
       - name: Delet tag
