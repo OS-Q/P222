@@ -7,7 +7,7 @@ on:
       - main
     paths-ignore:
       - '**.md'
-      # - '**.yml'
+      - '**.yml'
 
 env:
   UPLOAD_BUILD: false
@@ -103,5 +103,5 @@ jobs:
         if: steps.build.outputs.status == 'success' && env.UPLOAD_BUILD
         uses: actions/upload-artifact@v2
         with:
-          name: CI_build_upload
+          name: build_upload_${{ matrix.examples }}
           path: examples/${{ matrix.examples }}
