@@ -59,8 +59,17 @@ jobs:
       matrix:
         examples:
           - "arduino/pico-hello"
-          - "baremetal/pico-ardiuno"
+          - "arduino/pico-apple-2"
+          - "arduino/pico-pioasm-ws2812"
+          - "arduino/pico-i2c-oled"
+          - "arduino/pico-posix"
+          - "arduino/pico-tft-st7789"
+          - "HelloWorld/UNISTD"
           - "HelloWorld/HELLO"
+          - "baremetal/pico-hello"
+          - "baremetal/pico-cmsis-dap"
+          - "baremetal/pico-usb-webserver"
+          - "baremetal/pico-wasm3-dino-game"
 
     runs-on: ubuntu-latest #${{ matrix.os }}
     steps:
@@ -104,8 +113,18 @@ jobs:
         python-version: [3.9]
         example:
           - "arduino/pico-hello"
-          - "baremetal/pico-ardiuno"
+          - "arduino/pico-apple-2"
+          - "arduino/pico-pioasm-ws2812"
+          - "arduino/pico-i2c-oled"
+          - "arduino/pico-posix"
+          - "arduino/pico-tft-st7789"
+          - "HelloWorld/UNISTD"
           - "HelloWorld/HELLO"
+          - "baremetal/pico-hello"
+          - "baremetal/pico-cmsis-dap"
+          - "baremetal/pico-usb-webserver"
+          - "baremetal/pico-wasm3-dino-game"
+
 
     runs-on: ${{ matrix.os }}
     steps:

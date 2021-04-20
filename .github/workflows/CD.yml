@@ -55,7 +55,7 @@ jobs:
         id: tag
         if: startsWith(github.ref, 'refs/tags/')
         run: |
-          echo "::set-output name=release_tag::release_p67_$(date +"%Y.%m.%d")_${GITHUB_REF/refs\/tags\//}"
+          echo "::set-output name=release_tag::release_p25_$(date +"%Y.%m.%d")_${GITHUB_REF/refs\/tags\//}"
           echo "::set-output name=status::success"
 
       - name: Package Src
@@ -66,7 +66,7 @@ jobs:
           echo ${GITHUB_REF/refs\/tags\//} >> README.txt
           echo -e "www.OS-Q.com\n" >> README.txt
           git log --stat -1 >> README.txt
-          zip -r P25.zip boards extend link.json link.py
+          zip -r P25.zip boards extend misc link.json link.py
           echo "FIRMWARE=$PWD" >> $GITHUB_ENV
           echo "::set-output name=status::success"
 
@@ -137,7 +137,7 @@ jobs:
         id: rebuild
         if: steps.getgh.outputs.status == 'success' && !cancelled()
         run: |
-          qio run -d examples/Arduino/bg96/bg96_i2c_Si7021
+          qio run -d examples/arduino/pico-hello
 
       - name: Send Mail
         if: steps.rebuild.outputs.status == 'success' && !cancelled()
