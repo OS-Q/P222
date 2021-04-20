@@ -1,0 +1,247 @@
+name: CD
+
+on:
+  push:
+    tags:
+      - "v[0-9]+.[0-9]+.[0-9]+*"
+
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    if: github.repository == 'OS-Q/P67'
+    strategy:
+      fail-fast: true
+      matrix:
+        examples:
+          - "Arduino/bg96/bg96_i2c_Si7021"
+          - "Arduino/bg96/bg96_dss_dns"
+          - "Arduino/bg96/bg96_client_http"
+
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        submodules: "recursive"
+        fetch-depth: 1
+
+    - name: Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v1
+      with:
+        python-version: 3.9
+
+    - name: Install
+      run: |
+        python -m pip install --upgrade pip
+        pip install -U https://github.com/OS-Q/S03/releases/latest/download/S03.zip
+        qio platform install file://.
+
+    - name: Build
+      run: |
+        qio run -d examples/${{ matrix.examples }}
+
+  release:
+    needs:
+      - build
+    if: success() && startsWith(github.ref, 'refs/tags/')
+    runs-on: ubuntu-latest
+    steps:
+      - name: clone
+        uses: actions/checkout@v2
+        with:
+          submodules: "recursive"
+          fetch-depth: 1
+
+      - name: Generate tag
+        id: tag
+        if: startsWith(github.ref, 'refs/tags/')
+        run: |
+          echo "::set-output name=release_tag::release_p67_$(date +"%Y.%m.%d")_${GITHUB_REF/refs\/tags\//}"
+          echo "::set-output name=status::success"
+
+      - name: Package Src
+        id: package
+        run: |
+          echo "Platform P67 for Quectel Module" >> README.txt
+          echo $(date +"%Y.%m.%d") >> README.txt
+          echo ${GITHUB_REF/refs\/tags\//} >> README.txt
+          echo -e "www.OS-Q.com\n" >> README.txt
+          git log --stat -1 >> README.txt
+          zip -r P67.zip boards extend link.json link.py
+          echo "FIRMWARE=$PWD" >> $GITHUB_ENV
+          echo "::set-output name=status::success"
+
+      - name: Upload Firmware
+        if: steps.package.outputs.status == 'success' && !cancelled()
+        uses: actions/upload-artifact@v2
+        with:
+          name: P67
+          path: ${{ env.FIRMWARE }}/P67.zip
+
+      - name: Upload Release
+        id: upload-release
+        uses: stopstopstop/release-action@master
+        if: steps.tag.outputs.status == 'success' && !cancelled()
+        env:
+          GITHUB_TOKEN: ${{ secrets.OSQ_REPO_TOKEN }}
+        with:
+          tag_name: ${{ steps.tag.outputs.release_tag }}
+          files: |
+            ${{ env.FIRMWARE }}/P67.zip
+            ${{ env.FIRMWARE }}/README.txt
+
+      - name: Setup OSS
+        uses: stopstopstop/ossutil-action@master
+        with:
+          endpoint: ${{ secrets.OSS_ENDPOINT }}
+          access-key-id: ${{ secrets.OSS_ACCESS_KEY_ID }}
+          access-key-secret: ${{ secrets.OSS_ACCESS_KEY_SECRET }}
+
+      - name: Upload To OSS
+        id: OSS
+        run: |
+          ossutil cp ${{ env.FIRMWARE }}/P67.zip ${{ secrets.OSS_BUCKET }} -rf
+          echo "::set-output name=status::success"
+
+      - name: Delet tag
+        run: |
+          git fetch
+          git tag -d ${GITHUB_REF/refs\/tags\//}
+          git push origin :refs/tags/${GITHUB_REF/refs\/tags\//}
+
+
+  rebuild:
+    needs:
+      - release
+    if: success() && startsWith(github.ref, 'refs/tags/')
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          submodules: "recursive"
+          fetch-depth: 1
+
+      - name: Python ${{ matrix.python }}
+        uses: actions/setup-python@v1
+        with:
+          python-version: 3.9
+
+      - name: Install
+        id: getgh
+        run: |
+          python -m pip install --upgrade pip
+          pip install -U https://github.com/OS-Q/S03/releases/latest/download/S03.zip
+          qio platform install https://github.com/OS-Q/P67/releases/latest/download/P67.zip
+          echo "::set-output name=status::success"
+
+      - name: ReBuild
+        id: rebuild
+        if: steps.getgh.outputs.status == 'success' && !cancelled()
+        run: |
+          qio run -d examples/Arduino/bg96/bg96_i2c_Si7021
+
+      - name: Send Mail
+        if: steps.rebuild.outputs.status == 'success' && !cancelled()
+        uses: stopstopstop/mail-action@master
+        with:
+          server_address:  smtp.gmail.com
+          server_port: 465
+          username: ${{secrets.MAIL_USERNAME}}
+          password: ${{secrets.MAIL_PASSWORD}}
+          subject: OS-Q P67 Released
+          to: ${{secrets.MAIL_TO}}
+          from: Qitas
+          cc: ${{github.event.pusher.email}}
+          content_type: text/html
+          convert_markdown: true
+          attachments: P67.zip
+          body: file://README.md
+
+      - name: Delet tag
+        run: |
+          git fetch
+          git tag -d ${GITHUB_REF/refs\/tags\//}
+          git push origin :refs/tags/${GITHUB_REF/refs\/tags\//}
+
+  build_fail:
+    needs:
+      - build
+    if: failure() && startsWith(github.ref, 'refs/tags/')
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          submodules: "recursive"
+
+      - name: notification
+        uses: stopstopstop/mqtt-action@master
+        with:
+          protocol: mqtt
+          host: ${{secrets.MQTT_SERVER}}
+          port: 1883
+          username: ${{secrets.MQTT_USERNAME}}
+          password: ${{secrets.MQTT_PASSWORD}}
+          topic: ${{github.repository}}/${{github.workflow}}/${GITHUB_REF/refs\/tags\//}
+          message: "build fail"
+
+      - name: Delet tag
+        run: |
+          git fetch
+          git tag -d ${GITHUB_REF/refs\/tags\//}
+          git push origin :refs/tags/${GITHUB_REF/refs\/tags\//}
+
+  release_fail:
+    needs:
+      - release
+    if: failure() && startsWith(github.ref, 'refs/tags/')
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          submodules: "recursive"
+
+      - name: notification
+        uses: stopstopstop/mqtt-action@master
+        with:
+          protocol: mqtt
+          host: ${{secrets.MQTT_SERVER}}
+          port: 1883
+          username: ${{secrets.MQTT_USERNAME}}
+          password: ${{secrets.MQTT_PASSWORD}}
+          topic: ${{github.repository}}/${{github.workflow}}/${GITHUB_REF/refs\/tags\//}
+          message: "release fail"
+
+      - name: Delet tag
+        run: |
+          git fetch
+          git tag -d ${GITHUB_REF/refs\/tags\//}
+          git push origin :refs/tags/${GITHUB_REF/refs\/tags\//}
+
+    rebuild_fail:
+    needs:
+      - rebuild
+    if: failure()
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          submodules: "recursive"
+
+      - name: notification
+        uses: stopstopstop/mqtt-action@master
+        with:
+          protocol: mqtt
+          host: ${{secrets.MQTT_SERVER}}
+          port: 1883
+          username: ${{secrets.MQTT_USERNAME}}
+          password: ${{secrets.MQTT_PASSWORD}}
+          topic: ${{github.repository}}/${{github.workflow}}
+          message: "rebuild fail"
+
+      - name: Delet release
+        run: |
+          git fetch
+          git tag -d ${{ steps.tag.outputs.release_tag }}
+          git push origin :refs/tags/${{ steps.tag.outputs.release_tag }}

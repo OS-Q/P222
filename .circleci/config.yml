@@ -1,0 +1,56 @@
+version: 2
+jobs:
+  release:
+    docker:
+      - image: python:3
+    steps:
+      - checkout
+      - run:
+          name: "System"
+          command: |
+            apt update
+            apt install -y git
+            git submodule update --init --recursive
+      - run:
+          name: "Install"
+          command: |
+            python -m pip install --upgrade pip
+            pip install -U https://github.com/OS-Q/S03/releases/latest/download/S03.zip
+            pio platform install https://github.com/OS-Q/P67/releases/latest/download/P67.zip
+      - run:
+          name: "Build"
+          command: |
+            pio run -d examples/Arduino/bg96/bg96_i2c_Si7021
+            pio run -d examples/Arduino/bg96/bg96_dss_dns
+            pio run -d examples/Arduino/bg96/bg96_client_http
+
+  latest:
+    docker:
+      - image: python:3
+    steps:
+      - checkout
+      - run:
+          name: "System"
+          command: |
+            apt update
+            apt install -y git
+            git submodule update --init --recursive
+      - run:
+          name: "Install"
+          command: |
+            python -m pip install --upgrade pip
+            pip install -U https://github.com/OS-Q/S03/releases/latest/download/S03.zip
+            qio platform install file://.
+      - run:
+          name: "Build"
+          command: |
+            pio run -d examples/Arduino/bg96/bg96_i2c_Si7021
+            pio run -d examples/Arduino/bg96/bg96_dss_dns
+            pio run -d examples/Arduino/bg96/bg96_client_http
+
+workflows:
+    version: 2
+    run_ci:
+        jobs:
+            - release
+            - latest
