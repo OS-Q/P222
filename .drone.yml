@@ -10,6 +10,5 @@ steps:
   - git submodule update --init --recursive
   - pip install -U https://github.com/OS-Q/S03/releases/latest/download/S03.zip
   - qio platform install file://.
-  - qio run -d examples/Arduino/bg96/bg96_i2c_Si7021
-  - qio run -d examples/Arduino/bg96/bg96_dss_dns
-  - qio run -d examples/Arduino/bg96/bg96_client_http
+  - qio run -d examples/arduino/pico-hello
+  - qio run -d examples/baremetal/pico-ardiuno

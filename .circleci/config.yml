@@ -20,9 +20,8 @@ jobs:
       - run:
           name: "Build"
           command: |
-            pio run -d examples/Arduino/bg96/bg96_i2c_Si7021
-            pio run -d examples/Arduino/bg96/bg96_dss_dns
-            pio run -d examples/Arduino/bg96/bg96_client_http
+            pio run -d examples/arduino/pico-hello
+            pio run -d examples/baremetal/pico-ardiuno
 
   latest:
     docker:
@@ -44,9 +43,8 @@ jobs:
       - run:
           name: "Build"
           command: |
-            pio run -d examples/Arduino/bg96/bg96_i2c_Si7021
-            pio run -d examples/Arduino/bg96/bg96_dss_dns
-            pio run -d examples/Arduino/bg96/bg96_client_http
+            pio run -d examples/arduino/pico-hello
+            pio run -d examples/baremetal/pico-ardiuno
 
 workflows:
     version: 2
