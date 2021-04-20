@@ -55,7 +55,7 @@ jobs:
     - name: pylint
       uses: ricardochaves/python-lint@master
       with:
-        python-root-list: "builder extend"
+        python-root-list: "builder"
 
   QIO:
     if: github.repository == 'OS-Q/P25'
