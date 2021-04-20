@@ -7,7 +7,7 @@ on:
       - main
     paths-ignore:
       - '**.md'
-      - '**.yml'
+      # - '**.yml'
 
 env:
   UPLOAD_BUILD: false
@@ -51,6 +51,11 @@ jobs:
       with:
         name: code_check_report
         path: codecheck.txt
+
+    - name: pylint
+      uses: ricardochaves/python-lint@master
+      with:
+        python-root-list: "builder extend"
 
   QIO:
     if: github.repository == 'OS-Q/P25'
