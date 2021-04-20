@@ -66,7 +66,7 @@ class P25Platform(PlatformBase):
             #print('----------->', get_system())
             debug["tools"][link] = {
                 "server": {
-                    "package"    : "tool-pico-openocd",
+                    "package"    : "C25",
                     "executable" : join(get_system(), "openocd_rp2040"),
                     "arguments"  : server_args,
                 },
