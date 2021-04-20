@@ -52,7 +52,7 @@ jobs:
         name: code_check_report
         path: codecheck.txt
 
-  build:
+  QIO:
     if: github.repository == 'OS-Q/P25'
     strategy:
       fail-fast: false
@@ -70,9 +70,61 @@ jobs:
           - "pico-cmsis-dap"
           - "pico-usb-webserver"
           - "pico-wasm3-dino-game"
-        package:
-          - "QIO"
-          - "PIO"
+
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          submodules: "recursive"
+          fetch-depth: 1
+
+      - name: Python
+        uses: actions/setup-python@v1
+        with:
+          python-version: 3.9
+
+
+      - name: Install QIO
+        run: |
+          python -m pip install --upgrade pip
+          pip install -U https://github.com/OS-Q/S03/releases/latest/download/S03.zip
+          qio platform install file://.
+          qio update
+
+      - name: Build
+        id: build
+        if: success()
+        run: |
+          mkdir examples/${{ matrix.examples }}/build
+          pio run -d examples/${{ matrix.examples }}  >> examples/${{ matrix.examples }}/build/log.txt
+          cp -f examples/${{ matrix.examples }}/.*io/build/*/*.bin  examples/${{ matrix.examples }}/build/
+          echo "::set-output name=status::success"
+
+      - name: Upload
+        if: steps.build.outputs.status == 'success' && env.UPLOAD_BUILD
+        uses: actions/upload-artifact@v2
+        with:
+          name: QIO_${{ matrix.examples }}
+          path: examples/${{ matrix.examples }}/build
+
+  PIO:
+    if: github.repository == 'OS-Q/P25'
+    strategy:
+      fail-fast: false
+      matrix:
+        examples:
+          - "pico-hello"
+          - "pico-apple-2"
+          - "pico-pioasm-ws2812"
+          - "pico-i2c-oled"
+          # - "pico-posix"
+          - "pico-tft-st7789"
+          - "UNISTD"
+          - "HELLO"
+          - "pico-ardiuno"
+          - "pico-cmsis-dap"
+          - "pico-usb-webserver"
+          - "pico-wasm3-dino-game"
 
     runs-on: ubuntu-latest
     steps:
@@ -87,20 +139,11 @@ jobs:
           python-version: 3.9
 
       - name: Install PIO
-        if: matrix.package == 'PIO'
         run: |
           python -m pip install --upgrade pip
           pip install -U https://github.com/platformio/platformio/archive/develop.zip
           pio platform install file://.
           pio update
-
-      - name: Install QIO
-        if: matrix.package == 'QIO'
-        run: |
-          python -m pip install --upgrade pip
-          pip install -U https://github.com/OS-Q/S03/releases/latest/download/S03.zip
-          qio platform install file://.
-          qio update
 
       - name: Build
         id: build
@@ -108,12 +151,12 @@ jobs:
         run: |
           mkdir examples/${{ matrix.examples }}/build
           pio run -d examples/${{ matrix.examples }}  >> examples/${{ matrix.examples }}/build/log.txt
-          cp -f examples/${{ matrix.examples }}/.pio/build/*/*.bin  examples/${{ matrix.examples }}/build/
+          cp -f examples/${{ matrix.examples }}/.*io/build/*/*.bin  examples/${{ matrix.examples }}/build/
           echo "::set-output name=status::success"
 
       - name: Upload
         if: steps.build.outputs.status == 'success' && env.UPLOAD_BUILD
         uses: actions/upload-artifact@v2
         with:
-          name: ${{ matrix.package }}_${{ matrix.examples }}
+          name: PIO_${{ matrix.examples }}
           path: examples/${{ matrix.examples }}/build
