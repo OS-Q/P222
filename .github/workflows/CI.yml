@@ -71,7 +71,7 @@ jobs:
           - "baremetal/pico-usb-webserver"
           - "baremetal/pico-wasm3-dino-game"
 
-    runs-on: ubuntu-latest #${{ matrix.os }}
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
         with:

@@ -70,11 +70,11 @@ jobs:
       - name: Package Src
         id: package
         run: |
-          echo "Platform P25 for Quectel Module" >> README.txt
-          echo $(date +"%Y.%m.%d") >> README.txt
-          echo ${GITHUB_REF/refs\/tags\//} >> README.txt
-          echo -e "www.OS-Q.com\n" >> README.txt
-          git log --stat -1 >> README.txt
+          echo "Platform P25 for Raspberry Pi Pico" >> log.txt
+          echo $(date +"%Y.%m.%d") >> log.txt
+          echo ${GITHUB_REF/refs\/tags\//} >> log.txt
+          echo -e "www.OS-Q.com\n" >> log.txt
+          git log --stat -1 >> log.txt
           zip -r P25.zip boards extend misc link.json link.py
           echo "FIRMWARE=$PWD" >> $GITHUB_ENV
           echo "::set-output name=status::success"
@@ -88,7 +88,7 @@ jobs:
 
       - name: Upload Release
         id: upload-release
-        uses: stopstopstop/release-action@master
+        uses: Qful/release-action@master
         if: steps.tag.outputs.status == 'success' && !cancelled()
         env:
           GITHUB_TOKEN: ${{ secrets.OSQ_REPO_TOKEN }}
@@ -96,10 +96,10 @@ jobs:
           tag_name: ${{ steps.tag.outputs.release_tag }}
           files: |
             ${{ env.FIRMWARE }}/P25.zip
-            ${{ env.FIRMWARE }}/README.txt
+            ${{ env.FIRMWARE }}/log.txt
 
       - name: Setup OSS
-        uses: stopstopstop/ossutil-action@master
+        uses: Qful/ossutil-action@master
         with:
           endpoint: ${{ secrets.OSS_ENDPOINT }}
           access-key-id: ${{ secrets.OSS_ACCESS_KEY_ID }}
@@ -150,20 +150,20 @@ jobs:
 
       - name: Send Mail
         if: steps.rebuild.outputs.status == 'success' && !cancelled()
-        uses: stopstopstop/mail-action@master
+        uses: Qful/mail-action@master
         with:
           server_address:  smtp.gmail.com
           server_port: 465
           username: ${{secrets.MAIL_USERNAME}}
           password: ${{secrets.MAIL_PASSWORD}}
-          subject: OS-Q P25 Released
+          subject: P25 released by OS-Q
           to: ${{secrets.MAIL_TO}}
           from: Qitas
           cc: ${{github.event.pusher.email}}
           content_type: text/html
           convert_markdown: true
-          attachments: P25.zip
-          body: file://README.md
+          attachments: log.txt
+          body: file://mail.md
 
       - name: Delet tag
         run: |
@@ -183,7 +183,7 @@ jobs:
           submodules: "recursive"
 
       - name: notification
-        uses: stopstopstop/mqtt-action@master
+        uses: Qful/mqtt-action@master
         with:
           protocol: mqtt
           host: ${{secrets.MQTT_SERVER}}
@@ -211,7 +211,7 @@ jobs:
           submodules: "recursive"
 
       - name: notification
-        uses: stopstopstop/mqtt-action@master
+        uses: Qful/mqtt-action@master
         with:
           protocol: mqtt
           host: ${{secrets.MQTT_SERVER}}
@@ -239,7 +239,7 @@ jobs:
           submodules: "recursive"
 
       - name: notification
-        uses: stopstopstop/mqtt-action@master
+        uses: Qful/mqtt-action@master
         with:
           protocol: mqtt
           host: ${{secrets.MQTT_SERVER}}

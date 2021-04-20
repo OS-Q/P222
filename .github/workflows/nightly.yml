@@ -2,7 +2,7 @@ name: nightly
 
 on:
   schedule:
-    - cron: "0 */10 * * *"
+    - cron: "0 7 * * *"
 
 jobs:
   build:
@@ -65,7 +65,7 @@ jobs:
 
       # - name: notification
       #   if: github.repository == 'OS-Q/P25'
-      #   uses: stopstopstop/mqtt-action@master
+      #   uses: Qful/mqtt-action@master
       #   with:
       #     protocol: mqtt
       #     host: ${{secrets.MQTT_SERVER}}

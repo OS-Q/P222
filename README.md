@@ -12,6 +12,6 @@
 
 ### [简介](https://github.com/OS-Q/P25/wiki)
 
-[P25](https://github.com/OS-Q/P25)
+[P25](https://github.com/OS-Q/P25) 适用于 Raspberry Pi Pico 开发
 
 ### [源圈 OS-Q (Open Source & QA) ](http://www.OS-Q.com)
