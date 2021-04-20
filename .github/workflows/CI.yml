@@ -52,11 +52,6 @@ jobs:
         name: code_check_report
         path: codecheck.txt
 
-    - name: pylint
-      uses: ricardochaves/python-lint@master
-      with:
-        python-root-list: "builder"
-
   QIO:
     if: github.repository == 'OS-Q/P25'
     strategy:
@@ -119,9 +114,9 @@ jobs:
       matrix:
         examples:
           - "pico-hello"
-          - "pico-apple-2"
+          # - "pico-apple-2"
           - "pico-pioasm-ws2812"
-          - "pico-i2c-oled"
+          # - "pico-i2c-oled"
           # - "pico-posix"
           - "pico-tft-st7789"
           - "UNISTD"
