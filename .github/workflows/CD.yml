@@ -14,18 +14,18 @@ jobs:
       fail-fast: true
       matrix:
         examples:
-          - "arduino/pico-hello"
-          - "arduino/pico-apple-2"
-          - "arduino/pico-pioasm-ws2812"
-          - "arduino/pico-i2c-oled"
-          - "arduino/pico-posix"
-          - "arduino/pico-tft-st7789"
-          - "HelloWorld/UNISTD"
-          - "HelloWorld/HELLO"
-          - "baremetal/pico-ardiuno"
-          - "baremetal/pico-cmsis-dap"
-          - "baremetal/pico-usb-webserver"
-          - "baremetal/pico-wasm3-dino-game"
+          - "pico-hello"
+          - "pico-apple-2"
+          - "pico-pioasm-ws2812"
+          - "pico-i2c-oled"
+          - "pico-posix"
+          - "pico-tft-st7789"
+          - "UNISTD"
+          - "HELLO"
+          - "pico-ardiuno"
+          - "pico-cmsis-dap"
+          - "pico-usb-webserver"
+          - "pico-wasm3-dino-game"
 
     steps:
     - uses: actions/checkout@v2
@@ -146,7 +146,8 @@ jobs:
         id: rebuild
         if: steps.getgh.outputs.status == 'success' && !cancelled()
         run: |
-          qio run -d examples/arduino/pico-hello
+          qio run -d examples/pico-hello
+          qio run -d examples/pico-cmsis-dap
 
       - name: Send Mail
         if: steps.rebuild.outputs.status == 'success' && !cancelled()

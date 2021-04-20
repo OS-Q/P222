@@ -10,5 +10,5 @@ steps:
   - git submodule update --init --recursive
   - pip install -U https://github.com/OS-Q/S03/releases/latest/download/S03.zip
   - qio platform install file://.
-  - qio run -d examples/arduino/pico-hello
-  - qio run -d examples/baremetal/pico-ardiuno
+  - qio run -d examples/pico-hello
+  - qio run -d examples/pico-ardiuno

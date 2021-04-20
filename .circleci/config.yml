@@ -20,9 +20,9 @@ jobs:
       - run:
           name: "Build"
           command: |
-            pio run -d examples/arduino/pico-hello
-            pio run -d examples/baremetal/pico-ardiuno
-
+            pio run -d examples/pico-hello
+            pio run -d examples/pico-ardiuno
+            pio run -d examples/pico-cmsis-dap
 workflows:
     version: 2
     run_ci:

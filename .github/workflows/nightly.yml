@@ -2,7 +2,7 @@ name: nightly
 
 on:
   schedule:
-    - cron: "0 7 * * *"
+    - cron: "10 7 * * *"
 
 jobs:
   build:
@@ -10,21 +10,19 @@ jobs:
       fail-fast: false
       matrix:
         examples:
-          - "arduino/pico-hello"
-          - "arduino/pico-apple-2"
-          - "arduino/pico-pioasm-ws2812"
-          - "arduino/pico-i2c-oled"
-          - "arduino/pico-posix"
-          - "arduino/pico-tft-st7789"
-          - "HelloWorld/UNISTD"
-          - "HelloWorld/HELLO"
-          - "baremetal/pico-ardiuno"
-          - "baremetal/pico-cmsis-dap"
-          - "baremetal/pico-usb-webserver"
-          - "baremetal/pico-wasm3-dino-game"
-
+          - "pico-hello"
+          - "pico-apple-2"
+          - "pico-pioasm-ws2812"
+          - "pico-i2c-oled"
+          - "pico-posix"
+          - "pico-tft-st7789"
+          - "UNISTD"
+          - "HELLO"
+          - "pico-ardiuno"
+          - "pico-cmsis-dap"
+          - "pico-usb-webserver"
+          - "pico-wasm3-dino-game"
         os: [ubuntu-latest, windows-latest, macos-latest]
-        python: [3.9]
         package:
           - "release"
           - "latest"
@@ -37,10 +35,10 @@ jobs:
           submodules: "recursive"
           fetch-depth: 1
 
-      - name: Python ${{ matrix.python }}
+      - name: Python
         uses: actions/setup-python@v1
         with:
-          python-version: ${{ matrix.python }}
+          python-version: 3.9
 
       - name: Install PIO
         if: matrix.package == 'release'
@@ -79,8 +77,6 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-latest, windows-latest, macos-latest]
-        python-version: [3.9]
         example:
           - "arduino/pico-hello"
           - "arduino/pico-apple-2"
@@ -94,18 +90,17 @@ jobs:
           - "baremetal/pico-cmsis-dap"
           - "baremetal/pico-usb-webserver"
           - "baremetal/pico-wasm3-dino-game"
-
-
+        os: [ubuntu-latest, windows-latest, macos-latest]
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v2
         with:
           submodules: "recursive"
 
-      - name: Set up Python ${{ matrix.python-version }}
+      - name: Set up Python
         uses: actions/setup-python@v1
         with:
-          python-version: ${{ matrix.python-version }}
+          python-version: 3.9
 
       - name: Checkout
         uses: actions/checkout@v2

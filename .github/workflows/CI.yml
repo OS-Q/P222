@@ -37,7 +37,7 @@ jobs:
         max_ctu_depth: 2
         # platform: disable
         std: c11
-        output_file: ./cppcheck.txt
+        output_file: ./codecheck.txt
         other_options: --bug-hunting --verbose --std=c11
 
     - name: report
@@ -49,8 +49,8 @@ jobs:
     - name: Upload
       uses: actions/upload-artifact@v2
       with:
-        name: report
-        path: cppcheck.txt
+        name: code_check_report
+        path: codecheck.txt
 
   build:
     if: github.repository == 'OS-Q/P25'
@@ -58,18 +58,18 @@ jobs:
       fail-fast: false
       matrix:
         examples:
-          - "arduino/pico-hello"
-          - "arduino/pico-apple-2"
-          - "arduino/pico-pioasm-ws2812"
-          - "arduino/pico-i2c-oled"
-          - "arduino/pico-posix"
-          - "arduino/pico-tft-st7789"
-          - "HelloWorld/UNISTD"
-          - "HelloWorld/HELLO"
-          - "baremetal/pico-ardiuno"
-          - "baremetal/pico-cmsis-dap"
-          - "baremetal/pico-usb-webserver"
-          - "baremetal/pico-wasm3-dino-game"
+          - "pico-hello"
+          - "pico-apple-2"
+          - "pico-pioasm-ws2812"
+          - "pico-i2c-oled"
+          - "pico-posix"
+          - "pico-tft-st7789"
+          - "UNISTD"
+          - "HELLO"
+          - "pico-ardiuno"
+          - "pico-cmsis-dap"
+          - "pico-usb-webserver"
+          - "pico-wasm3-dino-game"
 
     runs-on: ubuntu-latest
     steps:
@@ -89,13 +89,14 @@ jobs:
           python -m pip install --upgrade pip
           pip install -U https://github.com/OS-Q/S03/releases/latest/download/S03.zip
           qio platform install file://.
+          qio update
 
       - name: Build
         id: build
         if: success()
         run: |
           mkdir examples/${{ matrix.examples }}/build
-          pio run -d examples/${{ matrix.examples }} > examples/${{ matrix.examples }}/build/log.txt
+          pio run -d examples/${{ matrix.examples }}  # >> examples/${{ matrix.examples }}/build/log.txt
           echo "::set-output name=status::success"
 
       - name: Upload
@@ -103,4 +104,4 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: CI_build_upload
-          path: examples/${{ matrix.examples }}/build
+          path: examples/${{ matrix.examples }}

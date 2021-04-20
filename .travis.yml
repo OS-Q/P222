@@ -3,9 +3,9 @@ python:
   - "3.7"
 
 env:
-  - PLATFORMIO_PROJECT_DIR="examples/arduino/pico-hello"
-  - PLATFORMIO_PROJECT_DIR="examples/HelloWorld/UNISTD"
-  - PLATFORMIO_PROJECT_DIR="examples/baremetal/pico-cmsis-dap"
+  - PLATFORMIO_PROJECT_DIR="examples/pico-hello"
+  - PLATFORMIO_PROJECT_DIR="examples/UNISTD"
+  - PLATFORMIO_PROJECT_DIR="examples/pico-cmsis-dap"
 
 install:
   - pip install -U https://github.com/OS-Q/S03/releases/latest/download/S03.zip

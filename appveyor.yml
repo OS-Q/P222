@@ -2,9 +2,9 @@ build: off
 environment:
 
   matrix:
-    - PLATFORMIO_PROJECT_DIR: "examples/arduino/pico-pioasm-ws2812"
-    - PLATFORMIO_PROJECT_DIR: "examples/baremetal/pico-usb-webserver"
-    - PLATFORMIO_PROJECT_DIR: "examples/baremetal/pico-wasm3-dino-game"
+    - PLATFORMIO_PROJECT_DIR: "examples/pico-pioasm-ws2812"
+    - PLATFORMIO_PROJECT_DIR: "examples/pico-usb-webserver"
+    - PLATFORMIO_PROJECT_DIR: "examples/pico-wasm3-dino-game"
 
 install:
   - cmd: git submodule update --init --recursive
