@@ -9,7 +9,7 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    if: github.repository == 'OS-Q/P67'
+    if: github.repository == 'OS-Q/P25'
     strategy:
       fail-fast: true
       matrix:
@@ -130,7 +130,7 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install -U https://github.com/OS-Q/S03/releases/latest/download/S03.zip
-          qio platform install https://github.com/OS-Q/P67/releases/latest/download/P67.zip
+          qio platform install https://github.com/OS-Q/P25/releases/latest/download/P67.zip
           echo "::set-output name=status::success"
 
       - name: ReBuild

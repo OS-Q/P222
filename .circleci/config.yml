@@ -16,7 +16,7 @@ jobs:
           command: |
             python -m pip install --upgrade pip
             pip install -U https://github.com/OS-Q/S03/releases/latest/download/S03.zip
-            pio platform install https://github.com/OS-Q/P67/releases/latest/download/P67.zip
+            pio platform install https://github.com/OS-Q/P25/releases/latest/download/P67.zip
       - run:
           name: "Build"
           command: |

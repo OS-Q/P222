@@ -38,7 +38,7 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install -U https://github.com/OS-Q/S03/archive/master.zip
-          pio platform install https://github.com/OS-Q/P67/releases/latest/download/P67.zip
+          pio platform install https://github.com/OS-Q/P25/releases/latest/download/P67.zip
 
       - name: Install QIO
         if: matrix.package == 'latest'
@@ -55,7 +55,7 @@ jobs:
           echo "::set-output name=status::success"
 
       # - name: notification
-      #   if: github.repository == 'OS-Q/P67'
+      #   if: github.repository == 'OS-Q/P25'
       #   uses: stopstopstop/mqtt-action@master
       #   with:
       #     protocol: mqtt
@@ -73,16 +73,15 @@ jobs:
         os: [ubuntu-latest, windows-latest, macos-latest]
         python-version: [3.9]
         example:
-          - "Arduino/bg96/bg96_i2c_Si7021"
-          - "Arduino/bg96/bg96_dss_dns"
-          - "Arduino/bg96/bg96_client_http"
+          - "arduino/pico-hello"
+          - "baremetal/pico-ardiuno"
+          - "HelloWorld/HELLO"
 
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v2
         with:
           submodules: "recursive"
-          fetch-depth: 1
 
       - name: Set up Python ${{ matrix.python-version }}
         uses: actions/setup-python@v1
@@ -92,7 +91,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
         with:
-          repository: Wiz-IO/platformio-quectel-examples
+          repository: Wiz-IO/wizio-pico-examples
           token: ${{ secrets.OSQ_REPO_TOKEN }}
           path: PIO
 
@@ -101,7 +100,7 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install -U https://github.com/platformio/platformio/archive/develop.zip
-          pio platform install https://github.com/Wiz-IO/platform-quectel/archive/master.zip
+          pio platform install https://github.com/Wiz-IO/wizio-pico/archive/master.zip
 
       - name: Build examples
         working-directory: PIO

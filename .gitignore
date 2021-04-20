@@ -4,3 +4,7 @@
 *.vscode/
 misc/svd/*.html
 *.rst
+examples/**/*.md
+LICENSE*
+*.png
+*.jpg
