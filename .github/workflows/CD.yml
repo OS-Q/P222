@@ -15,8 +15,17 @@ jobs:
       matrix:
         examples:
           - "arduino/pico-hello"
-          - "baremetal/pico-ardiuno"
+          - "arduino/pico-apple-2"
+          - "arduino/pico-pioasm-ws2812"
+          - "arduino/pico-i2c-oled"
+          - "arduino/pico-posix"
+          - "arduino/pico-tft-st7789"
+          - "HelloWorld/UNISTD"
           - "HelloWorld/HELLO"
+          - "baremetal/pico-ardiuno"
+          - "baremetal/pico-cmsis-dap"
+          - "baremetal/pico-usb-webserver"
+          - "baremetal/pico-wasm3-dino-game"
 
     steps:
     - uses: actions/checkout@v2
@@ -99,7 +108,7 @@ jobs:
       - name: Upload To OSS
         id: OSS
         run: |
-          ossutil cp ${{ env.FIRMWARE }}/P25.zip ${{ secrets.OSS_BUCKET }} -rf
+          ossutil cp ${{ env.FIRMWARE }}/P25.zip ${{ secrets.OSS_P_BUCKET }} -rf
           echo "::set-output name=status::success"
 
       - name: Delet tag
@@ -218,7 +227,7 @@ jobs:
           git tag -d ${GITHUB_REF/refs\/tags\//}
           git push origin :refs/tags/${GITHUB_REF/refs\/tags\//}
 
-    rebuild_fail:
+  rebuild_fail:
     needs:
       - rebuild
     if: failure()
