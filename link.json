@@ -1,39 +1,36 @@
 {
   "name": "P25",
   "title": "Raspberry Pi Pico",
-  "description": "Development platform for Raspberry Pi Pico",
-  "homepage": "http://www.wizio.eu/",
+  "description": "Platform for Raspberry Pi Pico",
+  "homepage": "http://www.OS-Q.com/P25",
   "license": "Apache-2.0",
   "engines": {
     "platformio": "^5"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/Wiz-IO/wizio-pico.git"
+    "url": "https://github.com/OS-Q/P25.git"
   },
   "version": "1.0.8",
-  "packageRepositories": [
-    "http://dl.platformio.org/packages/manifest.json"
-  ],
   "frameworks": {
       "baremetal": {
-        "package": "framework-wizio-pico",
+        "package": "E25A",
         "script": "extend/frameworks/sdk.py"
       },
       "arduino": {
-        "package": "framework-wizio-pico",
+        "package": "E25A",
         "script": "extend/frameworks/arduino.py"
       },
       "boot2": {
-        "package": "framework-wizio-pico",
+        "package": "E25A",
         "script": "extend/frameworks/boot2.py"
       }
 
   },
   "packages": {
-    "framework-wizio-pico": {
+    "E25A": {
         "type": "framework",
-        "version": "https://github.com/Wiz-IO/framework-wizio-pico.git"
+        "version": "https://github.com/OS-Q/E25A.git"
     },
     "toolchain-gccarmnoneeabi": {
         "type": "toolchain",
