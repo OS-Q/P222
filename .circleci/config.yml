@@ -6,7 +6,7 @@ jobs:
     steps:
       - checkout
       - run:
-          name: "System"
+          name: "QIO"
           command: |
             apt update
             apt install -y git
@@ -15,7 +15,7 @@ jobs:
           name: "Install"
           command: |
             python -m pip install --upgrade pip
-            pip install -U https://github.com/OS-Q/S03/releases/latest/download/S03.zip
+            pip install -U https://github.com/OS-Q/M03/releases/latest/download/qio.zip
             qio platform install file://.
       - run:
           name: "Build"
@@ -23,6 +23,7 @@ jobs:
             pio run -d examples/pico-hello
             pio run -d examples/pico-ardiuno
             pio run -d examples/pico-cmsis-dap
+
 workflows:
     version: 2
     run_ci:

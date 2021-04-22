@@ -13,7 +13,7 @@ env:
   UPLOAD_BUILD: false
 
 jobs:
-  build:
+  QIO:
     strategy:
       fail-fast: false
       matrix:
@@ -48,18 +48,18 @@ jobs:
         with:
           python-version: 3.9
 
-      - name: Install PIO
+      - name: Install release
         if: matrix.package == 'release'
         run: |
           python -m pip install --upgrade pip
-          pip install -U https://github.com/OS-Q/S03/releases/latest/download/S03.zip
-          pio platform install https://github.com/OS-Q/P25/releases/latest/download/P25.zip
+          pip install -U https://github.com/OS-Q/M03/releases/latest/download/qio.zip
+          pio platform install https://github.com/OS-Q/P25/releases/latest/download/package.zip
 
-      - name: Install QIO
+      - name: Install latest
         if: matrix.package == 'latest'
         run: |
           python -m pip install --upgrade pip
-          pip install -U https://github.com/OS-Q/S03/archive/master.zip
+          pip install -U https://github.com/OS-Q/M03/archive/master.zip
           qio platform install file://.
 
       - name: Build
@@ -98,7 +98,7 @@ jobs:
           topic: ${{github.repository}}/${{github.workflow}}
           message: "nightly build fail"
 
-  origin:
+  PIO:
     strategy:
       fail-fast: false
       matrix:

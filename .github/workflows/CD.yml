@@ -11,7 +11,6 @@ env:
 jobs:
   build:
     runs-on: ubuntu-latest
-    if: github.repository == 'OS-Q/P25'
     strategy:
       fail-fast: true
       matrix:
@@ -43,7 +42,7 @@ jobs:
     - name: Install
       run: |
         python -m pip install --upgrade pip
-        pip install -U https://github.com/OS-Q/S03/releases/latest/download/S03.zip
+        pip install -U https://github.com/OS-Q/M03/releases/latest/download/qio.zip
         qio platform install file://.
 
     - name: Build
@@ -64,20 +63,22 @@ jobs:
 
       - name: Generate tag
         id: tag
-        if: startsWith(github.ref, 'refs/tags/')
+        if: startsWith(github.ref, 'refs/tags/') && github.repository == 'OS-Q/P25'
         run: |
-          echo "::set-output name=release_tag::release_p25_$(date +"%Y.%m.%d")_${GITHUB_REF/refs\/tags\//}"
+          echo "::set-output name=release_tag::release_$(date +"%Y.%m.%d")_${GITHUB_REF/refs\/tags\//}"
           echo "::set-output name=status::success"
 
-      - name: Package Src
+      - name: Package
         id: package
         run: |
           echo "Platform P25 for Raspberry Pi Pico" >> log.txt
           echo $(date +"%Y.%m.%d") >> log.txt
           echo ${GITHUB_REF/refs\/tags\//} >> log.txt
+          echo ${GITHUB_REF/refs\/tags\//} >> qio/mail.md
+          echo $(date +"%Y.%m.%d") >> qio/mail.md
           echo -e "www.OS-Q.com\n" >> log.txt
           git log --stat -1 >> log.txt
-          zip -r P25.zip boards extend misc link.json link.py
+          zip -r package.zip boards extend misc link.json link.py
           echo "FIRMWARE=$PWD" >> $GITHUB_ENV
           echo "::set-output name=status::success"
 
@@ -86,7 +87,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: P25
-          path: ${{ env.FIRMWARE }}/P25.zip
+          path: ${{ env.FIRMWARE }}/package.zip
 
       - name: Upload Release
         id: upload-release
@@ -97,7 +98,7 @@ jobs:
         with:
           tag_name: ${{ steps.tag.outputs.release_tag }}
           files: |
-            ${{ env.FIRMWARE }}/P25.zip
+            ${{ env.FIRMWARE }}/package.zip
             ${{ env.FIRMWARE }}/log.txt
 
       - name: Setup OSS
@@ -110,6 +111,7 @@ jobs:
       - name: Upload To OSS
         id: OSS
         run: |
+          cp package.zip P25.zip
           ossutil cp ${{ env.FIRMWARE }}/P25.zip ${{ secrets.OSS_P_BUCKET }} -rf
           echo "::set-output name=status::success"
 
@@ -140,8 +142,8 @@ jobs:
         id: getgh
         run: |
           python -m pip install --upgrade pip
-          pip install -U https://github.com/OS-Q/S03/releases/latest/download/S03.zip
-          qio platform install https://github.com/OS-Q/P25/releases/latest/download/P25.zip
+          pip install -U https://github.com/OS-Q/M03/releases/latest/download/qio.zip
+          qio platform install https://github.com/OS-Q/P25/releases/latest/download/package.zip
           echo "::set-output name=status::success"
 
       - name: ReBuild
@@ -150,6 +152,7 @@ jobs:
         run: |
           qio run -d examples/pico-hello
           qio run -d examples/pico-cmsis-dap
+          echo "::set-output name=status::success"
 
       - name: Send Mail
         if: steps.rebuild.outputs.status == 'success' && !cancelled()
@@ -159,14 +162,14 @@ jobs:
           server_port: 465
           username: ${{secrets.MAIL_USERNAME}}
           password: ${{secrets.MAIL_PASSWORD}}
-          subject: P25 released by OS-Q
+          subject: OS-Q P25 package released
           to: ${{secrets.MAIL_TO}}
           from: Qitas
           cc: ${{github.event.pusher.email}}
           content_type: text/html
           convert_markdown: true
           attachments: log.txt
-          body: file://mail.md
+          body: file://./qio/mail.md
 
       - name: Delet tag
         run: |
@@ -251,9 +254,3 @@ jobs:
           password: ${{secrets.MQTT_PASSWORD}}
           topic: ${{github.repository}}/${{github.workflow}}
           message: "rebuild fail"
-
-      - name: Delet release
-        run: |
-          git fetch
-          git tag -d ${{ steps.tag.outputs.release_tag }}
-          git push origin :refs/tags/${{ steps.tag.outputs.release_tag }}

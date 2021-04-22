@@ -1,6 +1,6 @@
 language: python
 python:
-  - "3.7"
+  - "3.9"
 
 env:
   - PLATFORMIO_PROJECT_DIR="examples/pico-hello"
@@ -8,15 +8,8 @@ env:
   - PLATFORMIO_PROJECT_DIR="examples/pico-cmsis-dap"
 
 install:
-  - pip install -U https://github.com/OS-Q/S03/releases/latest/download/S03.zip
+  - pip install -U https://github.com/OS-Q/M03/releases/latest/download/qio.zip
   - qio platform install file://.
 
 script:
   - qio run -s -d $PLATFORMIO_PROJECT_DIR
-
-# notifications:
-#   email:
-#     recipients:
-#       - tang@qitas.cn
-#     on_success: never # default: change
-#     on_failure: always # default: always
