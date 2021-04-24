@@ -14,7 +14,7 @@ def get_system():
         sys_dir = 'windows'
     return sys_dir
 
-class P22Platform(PlatformBase):
+class WiziopicoPlatform(PlatformBase):
     def is_embedded(self):
         return True
 
