@@ -1,6 +1,6 @@
   // Copyright (c) 2014, Takashi Toyoshima
   // https://github.com/toyoshim/Applerm-II/blob/master/LICENSE
-  
+
   .syntax unified
   .align 2
   .thumb
@@ -946,7 +946,7 @@ op24:  // BIT - Zero Page
   _bit
   _decode
 
-op25:  // AND - Zero Page
+oP22:  // AND - Zero Page
   _fromZero
   _lop ands
   _decode
@@ -1729,7 +1729,7 @@ op_table:
   .long op22
   .long op23
   .long op24
-  .long op25
+  .long oP22
   .long op26
   .long op27
   .long op28

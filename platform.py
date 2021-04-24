@@ -14,7 +14,7 @@ def get_system():
         sys_dir = 'windows'
     return sys_dir
 
-class P25Platform(PlatformBase):
+class P22Platform(PlatformBase):
     def is_embedded(self):
         return True
 

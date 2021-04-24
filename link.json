@@ -1,15 +1,15 @@
 {
-  "name": "P25",
+  "name": "P22",
   "title": "Raspberry Pi Pico",
   "description": "Platform for Raspberry Pi Pico",
-  "homepage": "http://www.OS-Q.com/P25",
+  "homepage": "http://www.OS-Q.com/P22",
   "license": "Apache-2.0",
   "engines": {
     "platformio": "^5"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/OS-Q/P25.git"
+    "url": "https://github.com/OS-Q/P22.git"
   },
   "version": "1.0.8",
   "frameworks": {
