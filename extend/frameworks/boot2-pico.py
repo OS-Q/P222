@@ -37,7 +37,7 @@ def dev_compiler(env):
 def dev_init(env, platform):
     print( "RASPBERRYPI PI PICO RP2040 BOOT STAGE 2 COMPILER")
     env.platform = platform
-    env.framework_dir = env.PioPlatform().get_package_dir("framework-wizio-pico")
+    env.framework_dir = env.PioPlatform().get_package_dir("E22A")
     env.libs = []
     dev_compiler(env)
     dev_create_template(env)

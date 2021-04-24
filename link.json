@@ -1,15 +1,15 @@
 {
   "name": "P22",
   "title": "Raspberry Pi Pico",
-  "description": "Development platform for Raspberry Pi Pico",
-  "homepage": "http://www.wizio.eu/",
+  "description": "Platform for Raspberry Pi Pico",
+  "homepage": "http://www.OS-Q.com/P22",
   "license": "Apache-2.0",
   "engines": {
     "platformio": "^5"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/Wiz-IO/wizio-pico.git"
+    "url": "https://github.com/OS-Q/P22.git"
   },
   "version": "1.0.8",
   "packageRepositories": [
@@ -17,23 +17,23 @@
   ],
   "frameworks": {
       "baremetal": {
-        "package": "framework-wizio-pico",
-        "script": " extend/frameworks/sdk.py"
+        "package": "E22A",
+        "script": "extend/frameworks/sdk.py"
       },
       "arduino": {
-        "package": "framework-wizio-pico",
-        "script": " extend/frameworks/arduino.py"
+        "package": "E22A",
+        "script": "extend/frameworks/arduino.py"
       },
       "boot2": {
-        "package": "framework-wizio-pico",
-        "script": " extend/frameworks/boot2.py"
+        "package": "E22A",
+        "script": "extend/frameworks/boot2.py"
       }
 
   },
   "packages": {
-    "framework-wizio-pico": {
+    "E22A": {
         "type": "framework",
-        "version": "https://github.com/Wiz-IO/framework-wizio-pico.git"
+        "version": "https://github.com/OS-Q/E22A.git"
     },
     "toolchain-gccarmnoneeabi": {
         "type": "toolchain",
@@ -48,6 +48,5 @@
       "type": "debugger",
       "version": "https://github.com/Wiz-IO/tool-pico-openocd"
     }
-
   }
 }
