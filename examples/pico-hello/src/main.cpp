@@ -3,9 +3,9 @@
 void setup()
 {
   Serial.begin(115200);
-  Serial.println("\nArdiuno Raspberrypi PI Pico 2021 Georgi Angelov");
+  Serial.println("\nArdiuno Raspberrypi PI Pico .");
   pinMode(LED, OUTPUT);
-  
+
   //analogInit(ADC_T);
 }
 
@@ -16,6 +16,6 @@ void loop()
   led ^= 1;
   delay(1000);
   Serial.println( millis() );
-  
+
   //Serial.println(temperatureRead());
 }

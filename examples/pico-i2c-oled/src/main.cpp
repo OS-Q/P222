@@ -32,7 +32,7 @@ void setup()
 {
   delay(1000);                // just wait terminal to start
   Serial.begin(115200, true); // retarget stdio for printf
-  printf("\n\nArdiuno Raspberrypi PI Pico 2021 Georgi Angelov\n");
+  printf("\n\nArdiuno Raspberrypi PI Pico .\n");
   pinMode(LED, OUTPUT);
   oled_setup();
   printf("setup\n");

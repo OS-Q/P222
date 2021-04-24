@@ -309,7 +309,7 @@ if __name__ == "__main__":
     main()
 
 
-# WizIO 2021 Georgi Angelov
+# WizIO .
 #   http://www.wizio.eu/
 #   https://github.com/Wiz-IO/wizio-pico
 

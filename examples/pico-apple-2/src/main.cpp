@@ -26,7 +26,7 @@ void apple(void);
 void setup()
 {
   Serial.begin(115200, true); // retarget stdio for printf
-  printf("\n\nAPPLE II Raspberrypi PI Pico 2021 Georgi Angelov\n");
+  printf("\n\nAPPLE II Raspberrypi PI Pico .\n");
   pinMode(LED, OUTPUT);
   oled_setup();
   multicore_launch_core1(apple);

@@ -13,7 +13,7 @@ void led(int _delay)
 void setup()
 {
   Serial.begin(115200, true);
-  printf("\n\nArdiuno Raspberrypi PI Pico 2021 Georgi Angelov\n");
+  printf("\n\nArdiuno Raspberrypi PI Pico .\n");
   pinMode(LED, OUTPUT);
 }
 
@@ -34,7 +34,7 @@ void loop()
 int main(void)
 {
   stdio_init_all();
-  printf("\n\nPICO-SDK Raspberrypi PI Pico 2021 Georgi Angelov\n");
+  printf("\n\nPICO-SDK Raspberrypi PI Pico .\n");
   gpio_init(PICO_DEFAULT_LED_PIN);
   gpio_set_dir(PICO_DEFAULT_LED_PIN, GPIO_OUT);
   while (true)
@@ -80,7 +80,7 @@ void vTask1(void *pvParameters)
 int main(void)
 {
   stdio_init_all();
-  printf("\n\nFreeRTOS Raspberrypi PI Pico 2021 Georgi Angelov\n");
+  printf("\n\nFreeRTOS Raspberrypi PI Pico .\n");
 
   xTaskCreate(
       vTask1,               /* Function that implements the task. */

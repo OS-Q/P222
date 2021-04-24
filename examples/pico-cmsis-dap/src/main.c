@@ -24,7 +24,7 @@ int main(void)
         ;
 
     stdio_init_all();
-    printf("\n\n[APP] Raspberry Pi Pico RP2040 CMSIS-DAP 2021 Georgi Angelov\n");
+    printf("\n\n[APP] Raspberry Pi Pico RP2040 CMSIS-DAP .\n");
     printf("[APP] PICO ID: %s\n", unique_id);
     while (true)
     {

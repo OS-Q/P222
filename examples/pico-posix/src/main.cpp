@@ -57,7 +57,7 @@ void led(int _delay)
 void setup()
 {
   Serial.begin(115200, true);
-  printf("\n\nArdiuno Raspberrypi PI Pico 2021 Georgi Angelov\n");
+  printf("\n\nArdiuno Raspberrypi PI Pico .\n");
   pinMode(LED, OUTPUT);
   test_pthread();
 }
@@ -69,7 +69,7 @@ void loop()
 }
 
 /*
-Ardiuno Raspberrypi PI Pico 2021 Georgi Angelov
+Ardiuno Raspberrypi PI Pico .
 PTHREAD EXAMPLE https://en.wikipedia.org/wiki/POSIX_Threads
 
 IN MAIN: Creating thread 0.

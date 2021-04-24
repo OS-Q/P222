@@ -10,7 +10,7 @@
 /*
  * Dino game by by Ben Smith (binji)
  *   https://github.com/binji/raw-wasm/tree/master/dino
- * 
+ *
  * Volodymyr Shymanskyy
  *   https://github.com/vshymanskyy/wasm3_dino_rpi_pico
  */
@@ -55,7 +55,7 @@ uint8_t*        mem;
 void load_wasm()
 {
     M3Result result = m3Err_none;
-    
+
     if (!env) {
       env = m3_NewEnvironment ();
       if (!env) FATAL("NewEnvironment", "failed");
@@ -102,7 +102,7 @@ void drawImage(uint16_t *src, int dst_x, int dst_y, int src_w, int src_h)
 int main()
 {
     stdio_init_all();
-    printf("\n\nPICO-SDK Raspberrypi PI Pico 2021 Georgi Angelov\n");
+    printf("\n\nPICO-SDK Raspberrypi PI Pico .\n");
     printf("Wasm3 v" M3_VERSION " (" M3_ARCH "), build " __DATE__ " " __TIME__ "\n");
 
     pico_display.init();
@@ -118,9 +118,9 @@ int main()
     pico_display.update();
 
     M3Result result;
-    
+
     load_wasm();
-    
+
     uint64_t last_fps_print = 0;
 
     while (true) {
