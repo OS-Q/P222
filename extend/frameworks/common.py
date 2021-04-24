@@ -111,8 +111,8 @@ def dev_compiler(env, application_name = 'APPLICATION'):
             join("$PROJECT_DIR", "src"),
             join("$PROJECT_DIR", "lib"),
             join("$PROJECT_DIR", "include"),
-            join( env.framework_dir, "wizio", "pico"),
-            join( env.framework_dir, "wizio", "newlib"),
+            join( env.framework_dir, "vendor", "pico"),
+            join( env.framework_dir, "vendor", "newlib"),
             join( env.framework_dir, env.sdk, "include" ),
         ],
         CPPDEFINES = [
@@ -223,9 +223,7 @@ def add_bynary_type(env):
     add_libraries(env)
 
 def dev_finalize(env):
-# WIZIO
-    env.BuildSources( join("$BUILD_DIR", env.platform, "wizio"), join(env.framework_dir, "wizio") )
-# SDK
+    env.BuildSources( join("$BUILD_DIR", env.platform, "wizio"), join(env.framework_dir, "vendor") )
     add_bynary_type(env)
     add_sdk(env)
     env.Append(LIBS = env.libs)
