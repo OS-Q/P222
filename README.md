@@ -8,7 +8,7 @@
 [![Build Status](https://circleci.com/gh/OS-Q/P22.svg?style=svg)](https://circleci.com/gh/OS-Q/P22)
 [![Build Status](https://travis-ci.com/OS-Q/P22.svg?branch=master)](https://travis-ci.com/OS-Q/P22)
 [![Build Status](https://cloud.drone.io/api/badges/OS-Q/P22/status.svg)](https://cloud.drone.io/OS-Q/P22)
-[![Build Status](https://ci.appveyor.com/api/projects/status/3n82nq856e58o89g?svg=true)](https://ci.appveyor.com/project/Qitas/P22)
+[![Build status](https://ci.appveyor.com/api/projects/status/h5ojsylph89f8s05?svg=true)](https://ci.appveyor.com/project/Qitas/p22)
 
 ### [简介](https://github.com/OS-Q/P22/wiki)
 
