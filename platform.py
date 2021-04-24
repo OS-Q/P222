@@ -1,6 +1,4 @@
-# WizIO 2021 Georgi Angelov
-#   http://www.wizio.eu/
-#   https://github.com/Wiz-IO/wizio-pico
+
 
 from platformio.managers.platform import PlatformBase
 import os, platform, copy
@@ -14,7 +12,7 @@ def get_system():
         sys_dir = 'windows'
     return sys_dir
 
-class WiziopicoPlatform(PlatformBase):
+class P22Platform(PlatformBase):
     def is_embedded(self):
         return True
 
