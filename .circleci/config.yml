@@ -1,6 +1,8 @@
 version: 2
 jobs:
-
+  branches:
+    only:
+        - master
   QIO:
     docker:
       - image: python:3
