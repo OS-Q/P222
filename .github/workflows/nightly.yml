@@ -17,7 +17,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        examples:
+        example:
           - "pico-hello"
           - "pico-apple-2"
           - "pico-pioasm-ws2812"
@@ -30,6 +30,7 @@ jobs:
           - "pico-cmsis-dap"
           - "pico-usb-webserver"
           - "pico-wasm3-dino-game"
+
         os: [ubuntu-latest, windows-latest, macos-latest]
         package:
           - "release"
@@ -53,7 +54,7 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install -U https://github.com/OS-Q/M03/releases/latest/download/qio.zip
-          pio platform install https://github.com/OS-Q/P25/releases/latest/download/package.zip
+          pio platform install https://github.com/OS-Q/P22/releases/latest/download/package.zip
 
       - name: Install latest
         if: matrix.package == 'latest'
@@ -65,20 +66,21 @@ jobs:
       - name: Build
         id: build
         if: success()
+        working-directory: examples
         run: |
-          pio run -d examples/${{ matrix.examples }}
+          pio run -d ${{ matrix.example }}
           echo "::set-output name=status::success"
 
       - name: Upload
-        if: steps.build.outputs.status == 'success' && env.UPLOAD_BUILD
+        if: env.UPLOAD_BUILD
         uses: actions/upload-artifact@v2
         with:
-          name: build_upload_${{ matrix.examples }}
-          path: examples/${{ matrix.examples }}
+          name: qio_${{ matrix.example }}_${{ matrix.os }}
+          path: examples/${{ matrix.example }}/.pio/build
 
-  build_fail:
+  QIO_fail:
     needs:
-      - build
+      - QIO
     if: failure()
     runs-on: ubuntu-latest
     steps:
@@ -96,66 +98,85 @@ jobs:
           username: ${{secrets.MQTT_USERNAME}}
           password: ${{secrets.MQTT_PASSWORD}}
           topic: ${{github.repository}}/${{github.workflow}}
-          message: "nightly build fail"
+          message: "QIO build fail"
+
+  QIO_pass:
+    needs:
+      - QIO
+    if: success()
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          submodules: "recursive"
+
+      - name: notification
+        uses: Qful/mqtt-action@master
+        with:
+          protocol: mqtt
+          host: ${{secrets.MQTT_SERVER}}
+          port: 1883
+          username: ${{secrets.MQTT_USERNAME}}
+          password: ${{secrets.MQTT_PASSWORD}}
+          topic: ${{github.repository}}/${{github.workflow}}
+          message: "QIO build success"
 
   PIO:
     strategy:
       fail-fast: false
       matrix:
         example:
-          - "arduino/pico-hello"
-          - "arduino/pico-apple-2"
-          - "arduino/pico-pioasm-ws2812"
-          - "arduino/pico-i2c-oled"
-          - "arduino/pico-posix"
-          - "arduino/pico-tft-st7789"
-          - "HelloWorld/UNISTD"
-          - "HelloWorld/HELLO"
-          - "baremetal/pico-ardiuno"
-          - "baremetal/pico-cmsis-dap"
-          - "baremetal/pico-usb-webserver"
-          - "baremetal/pico-wasm3-dino-game"
+          - "pico-hello"
+          - "pico-apple-2"
+          - "pico-pioasm-ws2812"
+          - "pico-i2c-oled"
+          - "pico-posix"
+          - "pico-tft-st7789"
+          - "UNISTD"
+          - "HELLO"
+          - "pico-ardiuno"
+          - "pico-cmsis-dap"
+          - "pico-usb-webserver"
+          - "pico-wasm3-dino-game"
+
         os: [ubuntu-latest, windows-latest, macos-latest]
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v2
         with:
           submodules: "recursive"
+          fetch-depth: 1
 
       - name: Set up Python
         uses: actions/setup-python@v1
         with:
           python-version: 3.9
 
-      - name: Checkout
-        uses: actions/checkout@v2
-        with:
-          repository: Wiz-IO/wizio-pico-examples
-          token: ${{ secrets.OSQ_REPO_TOKEN }}
-          path: PIO
-
-      - name: Install dependencies
-        working-directory: PIO
+      - name: Install package
         run: |
           python -m pip install --upgrade pip
           pip install -U https://github.com/platformio/platformio/archive/develop.zip
-          pio platform install https://github.com/Wiz-IO/wizio-pico/archive/master.zip
+          pio platform install file://.
 
-      - name: Build examples
-        working-directory: PIO
+      - name: Build
+        id: build
+        if: success()
+        working-directory: examples
         run: |
           pio run -d ${{ matrix.example }}
+          echo "::set-output name=status::success"
 
       - name: Upload
-        if: success() && env.UPLOAD_BUILD
+        if: env.UPLOAD_BUILD
         uses: actions/upload-artifact@v2
         with:
-          name: build_upload
-          path: arduino
+          name: pio_${{ matrix.example }}_${{ matrix.os }}
+          path: examples/${{ matrix.example }}/.pio/build
 
-  origin_fail:
+  PIO_fail:
     needs:
-      - origin
+      - PIO
     if: failure()
     runs-on: ubuntu-latest
     steps:
@@ -173,4 +194,27 @@ jobs:
           username: ${{secrets.MQTT_USERNAME}}
           password: ${{secrets.MQTT_PASSWORD}}
           topic: ${{github.repository}}/${{github.workflow}}
-          message: "origin build fail"
+          message: "PIO build fail"
+
+  PIO_pass:
+    needs:
+      - PIO
+    if: success()
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          submodules: "recursive"
+
+      - name: notification
+        uses: Qful/mqtt-action@master
+        with:
+          protocol: mqtt
+          host: ${{secrets.MQTT_SERVER}}
+          port: 1883
+          username: ${{secrets.MQTT_USERNAME}}
+          password: ${{secrets.MQTT_PASSWORD}}
+          topic: ${{github.repository}}/${{github.workflow}}
+          message: "PIO build success"
+

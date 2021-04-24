@@ -2,7 +2,7 @@ kind: pipeline
 name: OSQ
 
 steps:
-- name: example
+- name: QIO
   image: python:3
   commands:
   - apt update
@@ -12,3 +12,16 @@ steps:
   - qio platform install file://.
   - qio run -d examples/pico-hello
   - qio run -d examples/pico-ardiuno
+
+- name: PIO
+  image: python:3
+  commands:
+  - apt update
+  - apt install -y git
+  - git submodule update --init --recursive
+  - pip install -U https://github.com/platformio/platformio/archive/develop.zip
+  - pio platform install file://.
+  - pio run -d examples/pico-hello
+  - pio run -d examples/pico-ardiuno
+
+
