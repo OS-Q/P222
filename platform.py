@@ -10,11 +10,11 @@ from platform import system, machine
 def get_system():
     sys_dir = system() +'_'+ machine()
     sys_dir = sys_dir.lower()
-    if 'windows' in sys_dir: 
+    if 'windows' in sys_dir:
         sys_dir = 'windows'
-    return sys_dir 
+    return sys_dir
 
-class WiziopicoPlatform(PlatformBase):
+class P22Platform(PlatformBase):
     def is_embedded(self):
         return True
 
@@ -28,7 +28,7 @@ class WiziopicoPlatform(PlatformBase):
             for key, value in result.items():
                 result[key] = self._add_dynamic_options(result[key])
         return result
-     
+
     def _add_dynamic_options(self, board):
         # upload protocols
         if not board.get("upload.protocols", []):

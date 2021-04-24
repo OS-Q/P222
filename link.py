@@ -1,3 +1,7 @@
+# WizIO 2021 Georgi Angelov
+#   http://www.wizio.eu/
+#   https://github.com/Wiz-IO/wizio-pico
+
 from platformio.managers.platform import PlatformBase
 import os, platform, copy
 from os.path import join
@@ -66,7 +70,7 @@ class P22Platform(PlatformBase):
             #print('----------->', get_system())
             debug["tools"][link] = {
                 "server": {
-                    "package"    : "C25",
+                    "package"    : "tool-pico-openocd",
                     "executable" : join(get_system(), "openocd_rp2040"),
                     "arguments"  : server_args,
                 },

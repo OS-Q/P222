@@ -309,6 +309,11 @@ if __name__ == "__main__":
     main()
 
 
+# WizIO 2021 Georgi Angelov
+#   http://www.wizio.eu/
+#   https://github.com/Wiz-IO/wizio-pico
+
+
 def dev_uploader(target, source, env):
     global appstartaddr
     appstartaddr = int(env.address, 0)

@@ -1,3 +1,7 @@
+# WizIO 2021 Georgi Angelov
+#   http://www.wizio.eu/
+#   https://github.com/Wiz-IO/wizio-pico
+
 from __future__ import print_function
 import os, platform
 from platform import system, machine
@@ -12,9 +16,9 @@ def execute(cmd):
     out, err = proc.communicate()
     lines = out.decode().split("\r\n")
     error = err.decode().split("\r\n")
-    if proc.returncode == 0:
+    if proc.returncode == 0: 
         COLOR = Fore.GREEN
-    else:
+    else: 
         COLOR = Fore.RED
     for i in range( len(error) ):
         print( COLOR + error[i] )
@@ -24,10 +28,10 @@ def execute(cmd):
 def dev_pioasm(env):
     sys_dir = system() +'_'+ machine()
     sys_dir = sys_dir.lower()
-    if 'windows' in sys_dir:
+    if 'windows' in sys_dir: 
         sys_dir = 'windows'
 
-    tool = env.PioPlatform().get_package_dir("C25")
+    tool = env.PioPlatform().get_package_dir("tool-wizio-pico")
     if None == tool:
         print( Fore.RED + '[PIO-ASM] ERROR: The', sys_dir, 'is no supported yet...' )
         return
@@ -51,14 +55,14 @@ def dev_pioasm(env):
             exit(1)
 
         if False == os.path.isdir( os.path.dirname( dst )  ):
-            print(Fore.RED + '[PIO-ASM] ERROR: Destination folder not exist', os.path.dirname( dst ), "\n")
-            exit(1)
+            print(Fore.RED + '[PIO-ASM] ERROR: Destination folder not exist', os.path.dirname( dst ), "\n")     
+            exit(1)   
 
         cmd = []
-        cmd.append(join(tool, sys_dir, 'pioasm') )
-        cmd.append(join(env.subst("$PROJECT_DIR"), src))
-        cmd.append(join(env.subst("$PROJECT_DIR"), dst))
-
-        if execute(cmd) != 0:
-            exit(1)
+        cmd.append(join(tool, sys_dir, 'pioasm') ) 
+        cmd.append(join(env.subst("$PROJECT_DIR"), src))        
+        cmd.append(join(env.subst("$PROJECT_DIR"), dst))  
+    
+        if execute(cmd) != 0:    
+            exit(1) 
 
