@@ -12,6 +12,13 @@ steps:
   - qio platform install file://.
   - qio run -d examples/pico-hello
   - qio run -d examples/pico-ardiuno
+  - qio run -d examples/HELLO
+  - qio run -d examples/UNISTD
+  - qio run -d examples/pico-pioasm-ws2812
+  - qio run -d examples/pico-tft-st7789
+  - qio run -d examples/pico-usb-webserver
+  - qio run -d examples/pico-wasm3-dino-game
+  - qio run -d examples/pico-cmsis-dap
 
 - name: PIO
   image: python:3
@@ -19,9 +26,16 @@ steps:
   - apt update
   - apt install -y git
   - git submodule update --init --recursive
-  - pip install -U https://github.com/platformio/platformio/archive/develop.zip
+  - pip install -U platformio
   - pio platform install file://.
   - pio run -d examples/pico-hello
   - pio run -d examples/pico-ardiuno
+  - qio run -d examples/HELLO
+  - pio run -d examples/UNISTD
+  - pio run -d examples/pico-pioasm-ws2812
+  - pio run -d examples/pico-tft-st7789
+  - pio run -d examples/pico-usb-webserver
+  - pio run -d examples/pico-wasm3-dino-game
+  - pio run -d examples/pico-cmsis-dap
 
 
