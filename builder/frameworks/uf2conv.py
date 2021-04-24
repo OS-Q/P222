@@ -207,7 +207,7 @@ def get_drives():
         if sys.platform == "darwin":
             rootpath = "/Volumes"
         elif sys.platform == "linux":
-            tmp = rootpath + "/" + os.environ["USER"]
+            tmp = rootpath + "/" + os.environ["USERNAME"]
             if os.path.isdir(tmp):
                 rootpath = tmp
         for d in os.listdir(rootpath):

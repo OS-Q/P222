@@ -1,6 +1,9 @@
 version: 2
 jobs:
   build:
+    branches:
+      only:
+        - "pio"
     docker:
       - image: python:3
     steps:
