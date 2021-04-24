@@ -16,14 +16,11 @@ jobs:
       fail-fast: true
       matrix:
         example:
-          - "pico-hello"
-          # - "pico-apple-2"
-          - "pico-pioasm-ws2812"
-          # - "pico-i2c-oled"
-          # - "pico-posix"
-          - "pico-tft-st7789"
           - "UNISTD"
           - "HELLO"
+          - "pico-hello"
+          - "pico-pioasm-ws2812"
+          - "pico-tft-st7789"
           - "pico-ardiuno"
           - "pico-cmsis-dap"
           - "pico-usb-webserver"

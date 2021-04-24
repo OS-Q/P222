@@ -33,7 +33,6 @@ jobs:
         force_language: c
         force: enable
         max_ctu_depth: 2
-        # platform: disable
         std: c11
         output_file: ./codecheck.txt
         other_options: --bug-hunting --verbose --std=c11

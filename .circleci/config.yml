@@ -1,9 +1,9 @@
-version: 2
+version: 2.1
 jobs:
-  branches:
-    only:
-        - master
   QIO:
+    branches:
+      only:
+          - master
     docker:
       - image: python:3
     steps:
@@ -28,6 +28,9 @@ jobs:
             pio run -d examples/pico-cmsis-dap
 
   PIO:
+    branches:
+      only:
+          - master
     docker:
       - image: python:3
     steps:
@@ -52,7 +55,7 @@ jobs:
             pio run -d examples/pico-cmsis-dap
 
 workflows:
-    version: 2
+    version: 2.1
     run_ci:
         jobs:
           - QIO
