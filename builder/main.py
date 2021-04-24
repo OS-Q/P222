@@ -5,7 +5,7 @@ from colorama import Fore
 from pioasm import dev_pioasm
 
 env = DefaultEnvironment()
-print( '<<<<<<<<<<<< ' + env.BoardConfig().get("name").upper() + " 2021 Georgi Angelov >>>>>>>>>>>>" )
+print( '<<<<<<<<<<<< ' + env.BoardConfig().get("name").upper() + "   >>>>>>>>>>>>" )
 
 dev_pioasm(env)
 

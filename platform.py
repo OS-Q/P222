@@ -1,5 +1,3 @@
-
-
 from platformio.managers.platform import PlatformBase
 import os, platform, copy
 from os.path import join
