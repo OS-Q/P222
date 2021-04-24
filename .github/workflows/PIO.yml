@@ -4,6 +4,9 @@ on:
   push:
     branches:
       - pio
+    paths-ignore:
+      - '**.md'
+      - '**/config.yml'
 
 env:
   UPLOAD_BUILD: true
