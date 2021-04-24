@@ -28,21 +28,21 @@
   },
   "packages": {
     "E22A": {
-        "type": "framework",
-        "version": "https://github.com/OS-Q/E22A.git"
+      "type": "framework",
+      "version": "https://github.com/OS-Q/E22A.git"
     },
     "toolchain-gccarmnoneeabi": {
-        "type": "toolchain",
-        "version": "=1.70201.0"
+      "type": "toolchain",
+      "version": "=1.70201.0"
     },
     "tool-wizio-pico": {
-        "type": "uploader",
-        "version": "https://github.com/Wiz-IO/tool-wizio-pico.git"
+      "type": "uploader",
+      "version": "https://github.com/OS-Q/C22B.git"
     },
     "tool-pico-openocd": {
       "optional": true,
       "type": "debugger",
-      "version": "https://github.com/Wiz-IO/tool-pico-openocd"
+      "version": "https://github.com/OS-Q/C22D.git"
     }
   }
 }
