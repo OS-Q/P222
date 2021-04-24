@@ -1,7 +1,7 @@
 {
   "name": "P22",
-  "title": "Raspberry Pi Pico",
-  "description": "Development platform for Raspberry Pi Pico .",
+  "title": "WizIO - Raspberry Pi Pico",
+  "description": "Development platform for Raspberry Pi Pico 2021 Georgi Angelov",
   "homepage": "http://www.wizio.eu/",
   "license": "Apache-2.0",
   "engines": {

@@ -1,4 +1,4 @@
-# WizIO .
+# WizIO 2021 Georgi Angelov
 #   http://www.wizio.eu/
 #   https://github.com/Wiz-IO/wizio-pico
 
@@ -10,11 +10,11 @@ from platform import system, machine
 def get_system():
     sys_dir = system() +'_'+ machine()
     sys_dir = sys_dir.lower()
-    if 'windows' in sys_dir:
+    if 'windows' in sys_dir: 
         sys_dir = 'windows'
-    return sys_dir
+    return sys_dir 
 
-class P22Platform(PlatformBase):
+class WiziopicoPlatform(PlatformBase):
     def is_embedded(self):
         return True
 
@@ -28,7 +28,7 @@ class P22Platform(PlatformBase):
             for key, value in result.items():
                 result[key] = self._add_dynamic_options(result[key])
         return result
-
+     
     def _add_dynamic_options(self, board):
         # upload protocols
         if not board.get("upload.protocols", []):

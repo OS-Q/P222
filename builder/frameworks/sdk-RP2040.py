@@ -1,4 +1,4 @@
-# WizIO .
+# WizIO 2021 Georgi Angelov
 #   http://www.wizio.eu/
 #   https://github.com/Wiz-IO/wizio-pico
 
