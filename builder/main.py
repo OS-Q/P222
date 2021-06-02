@@ -1,6 +1,4 @@
-# WizIO 2021 Georgi Angelov
-#   http://www.wizio.eu/
-#   https://github.com/Wiz-IO/wizio-pico
+
 
 from __future__ import print_function
 from os.path import join
@@ -18,16 +16,16 @@ src = env.ElfToBin( join("$BUILD_DIR", "${PROGNAME}"), elf )
 prg = env.Alias( "buildprog", src, [ env.VerboseAction("", "DONE") ] )
 AlwaysBuild( prg )
 
-upload = env.Alias("upload", prg, [ 
+upload = env.Alias("upload", prg, [
     env.VerboseAction("$UPLOADCMD", "Uploading..."),
     env.VerboseAction("", "  DONE"),
 ])
-AlwaysBuild( upload )    
+AlwaysBuild( upload )
 
 debug_tool = env.GetProjectOption("debug_tool")
 if None == debug_tool:
     Default( prg )
-else:   
+else:
     if 'cmsis-dap' in debug_tool:
         Default( upload )
     else:

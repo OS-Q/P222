@@ -1,7 +1,7 @@
 {
-  "name": "P31A",
-  "title": "WizIO - Raspberry Pi Pico",
-  "description": "Development platform for Raspberry Pi Pico 2021 Georgi Angelov",
+  "name": "P312",
+  "title": "OS-Q Pi Pico MCU",
+  "description": "Development platform for Raspberry Pi Pico",
   "homepage": "http://www.wizio.eu/",
   "license": "Apache-2.0",
   "engines": {

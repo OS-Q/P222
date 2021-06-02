@@ -1,6 +1,3 @@
-# WizIO 2021 Georgi Angelov
-#   http://www.wizio.eu/
-#   https://github.com/Wiz-IO/wizio-pico
 
 from platformio.managers.platform import PlatformBase
 import os, platform, copy
@@ -14,7 +11,7 @@ def get_system():
         sys_dir = 'windows'
     return sys_dir
 
-class P31APlatform(PlatformBase):
+class P312Platform(PlatformBase):
     def is_embedded(self):
         return True
 
@@ -48,6 +45,7 @@ class P31APlatform(PlatformBase):
         board.manifest["upload"]["protocols"] = upload_protocols
         if "tools" not in debug:
             debug["tools"] = {}
+
         for link in upload_protocols:
             if link in non_debug_protocols or link in debug["tools"]: continue
             server_args = [
@@ -55,10 +53,9 @@ class P31APlatform(PlatformBase):
                 "-f", "interface/%s.cfg" % link,
                 "-f", "target/%s" % debug.get("openocd_target")
             ]
+
             if link == "picoprobe":
-                init_cmds = [
-                    "target extended-remote $DEBUG_PORT" # use pio default settings
-                ]
+                init_cmds = [ ] # use pio default settings
             else:
                 init_cmds = [
                     "target extended-remote $DEBUG_PORT",
@@ -67,17 +64,30 @@ class P31APlatform(PlatformBase):
                     "define pio_reset_run_target",
                     "end"
                 ]
-            #print('----------->', get_system())
-            debug["tools"][link] = {
-                "server": {
-                    "package"    : "tool-pico-openocd",
-                    "executable" : join(get_system(), "openocd_rp2040"),
-                    "arguments"  : server_args,
-                },
-                "init_cmds"      : init_cmds,
-                "onboard"        : link in debug.get("onboard_tools", []),
-                "default"        : link == debug.get("default_tool"),
-            }
+
+            if link == 'picoprobe':
+                debug["tools"][link] = {
+                    "server": {
+                        "package"    : "tool-pico-openocd",
+                        "executable" : join(get_system(), "picoprobe"), # EXE
+                        "arguments"  : server_args,
+                    },
+                    "init_cmds"      : init_cmds,
+                    "onboard"        : link in debug.get("onboard_tools", []),
+                    "default"        : link == debug.get("default_tool"),
+                }
+            else: # CMSIS-DAP
+                debug["tools"][link] = {
+                    "server": {
+                        "package"    : "tool-pico-openocd",
+                        "executable" : join(get_system(), "openocd_rp2040"), # EXE
+                        "arguments"  : server_args,
+                    },
+                    "init_cmds"      : init_cmds,
+                    "onboard"        : link in debug.get("onboard_tools", []),
+                    "default"        : link == debug.get("default_tool"),
+                }
+
         board.manifest["debug"] = debug
         return board
 
