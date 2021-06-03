@@ -38,7 +38,7 @@ def ini_file(env):
 
 def dev_create_template(env):
     ini_file(env)
-    src = join(env.PioPlatform().get_package_dir("framework-wizio-pico"), "templates")
+    src = join(env.PioPlatform().get_package_dir("E312"), "templates")
     dst = do_mkdir( env.subst("$PROJECT_DIR"), "include" )
 
     if "freertos" in env.GetProjectOption("lib_deps", []) or "USE_FREERTOS" in env.get("CPPDEFINES"):

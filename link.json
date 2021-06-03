@@ -1,15 +1,14 @@
 {
   "name": "P312",
-  "title": "OS-Q Pi Pico MCU",
+  "title": "OS-Q Raspberry Pi Pico",
   "description": "Development platform for Raspberry Pi Pico",
-  "homepage": "http://www.wizio.eu/",
-  "license": "Apache-2.0",
+  "homepage": "http://www.OS-Q.com/",
   "engines": {
     "platformio": "^5"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/Wiz-IO/wizio-pico.git"
+    "url": "https://github.com/OS-Q/P312.git"
   },
   "version": "1.0.8",
   "packageRepositories": [
@@ -17,23 +16,23 @@
   ],
   "frameworks": {
       "baremetal": {
-        "package": "framework-wizio-pico",
+        "package": "E312",
         "script": "builder/frameworks/sdk.py"
       },
       "arduino": {
-        "package": "framework-wizio-pico",
+        "package": "E312",
         "script": "builder/frameworks/arduino.py"
       },
       "boot2": {
-        "package": "framework-wizio-pico",
+        "package": "E312",
         "script": "builder/frameworks/boot2.py"
       }
 
   },
   "packages": {
-    "framework-wizio-pico": {
+    "E312": {
         "type": "framework",
-        "version": "https://github.com/Wiz-IO/framework-wizio-pico.git"
+        "version": "https://github.com/OS-Q/E312.git"
     },
     "toolchain-gccarmnoneeabi": {
         "type": "toolchain",
