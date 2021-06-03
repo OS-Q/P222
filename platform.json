@@ -33,7 +33,7 @@
   "packages": {
     "E312": {
         "type": "framework",
-        "version": "https://github.com/Wiz-IO/E312.git"
+        "version": "https://github.com/OS-Q/E312.git"
     },
     "toolchain-gccarmnoneeabi": {
         "type": "toolchain",
