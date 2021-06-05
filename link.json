@@ -38,15 +38,9 @@
         "type": "toolchain",
         "version": "=1.70201.0"
     },
-    "tool-wizio-pico": {
+    "D312": {
         "type": "uploader",
-        "version": "https://github.com/Wiz-IO/tool-wizio-pico.git"
-    },
-    "tool-pico-openocd": {
-      "optional": true,
-      "type": "debugger",
-      "version": "https://github.com/Wiz-IO/tool-pico-openocd"
+        "version": "https://github.com/OS-Q/D312.git"
     }
-
   }
 }

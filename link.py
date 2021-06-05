@@ -68,7 +68,7 @@ class P312Platform(PlatformBase):
             if link == 'picoprobe':
                 debug["tools"][link] = {
                     "server": {
-                        "package"    : "tool-pico-openocd",
+                        "package"    : "D312",
                         "executable" : join(get_system(), "picoprobe"), # EXE
                         "arguments"  : server_args,
                     },
@@ -79,7 +79,7 @@ class P312Platform(PlatformBase):
             else: # CMSIS-DAP
                 debug["tools"][link] = {
                     "server": {
-                        "package"    : "tool-pico-openocd",
+                        "package"    : "D312",
                         "executable" : join(get_system(), "openocd_rp2040"), # EXE
                         "arguments"  : server_args,
                     },
